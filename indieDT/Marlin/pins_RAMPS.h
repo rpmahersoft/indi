@@ -70,7 +70,7 @@
 //
 // Limit Switches
 //
-#define X_MIN_PIN          27
+#define X_MIN_PIN         37  //pin change from 27 to 37 manually due to the board issue
 #ifndef X_MAX_PIN
   #define X_MAX_PIN        -1
 #endif
@@ -96,7 +96,7 @@
   #define X_ENABLE_PIN        49
   #define X_SLEEP             47
   #define X_RESET             48
-  #define X_MIN_PIN           27
+  #define X_MIN_PIN           37  //pin change from 27 to 37 manually due to the board issue
   #define X_MAX_PIN           -1
   #define X_CS_PIN            -1
 
