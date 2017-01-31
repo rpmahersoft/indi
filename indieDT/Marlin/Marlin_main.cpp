@@ -231,9 +231,11 @@
 #include "nozzle.h"
 #include "duration_t.h"
 #include "types.h"
-#include "smartLED.h"
-#define ADDRESSABLE_LED     11
-//AddressableLED_t AddressableLED;
+#include <Adafruit_NeoPixel.h>
+#ifdef __AVR__
+  #include <avr/power.h>
+#endif
+Adafruit_NeoPixel strip = Adafruit_NeoPixel(5,11, NEO_GRB + NEO_KHZ800);
 
 #if HAS_ABL
   #include "vector_3.h"
@@ -10190,24 +10192,43 @@ void stop() {
  *    • Z probe sled
  *    • status LEDs
  */
-
+//This will update the led color during heating
  void addressable_led_update()
  {
-   for(uint16_t i = 0; i < LED_COUNT; i++)
-   {
-     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-   }
-   // Write the colors to the LED strip.
-   ledStrip.write(colors, LED_COUNT);
+ //MYSERIAL.println(thermalManager.degHotend(0) + 0.5);
+if(int(thermalManager.degTargetHotend(0) + 0.5) != 0)
+  {
+    if(int(thermalManager.degHotend(0) + 0.5) >= int(thermalManager.degTargetHotend(0) + 0.5))
+    {
+        for(int i=0;i<5;i++)
+ {
+  strip.setPixelColor(i, strip.Color(255,255,0)); //yellow color
+  strip.show();
+  delay(10); 
+ }
+    }
+    else
+    {
+       for(int i=0;i<5;i++)
+ {
+  strip.setPixelColor(i, strip.Color(255,128,0)); // orange color
+  strip.show(); 
+  delay(10); 
+ }
+    }
+  }
 
  }
 
 void setup() {
-  AddressableLED.Red = 255;
-  AddressableLED.Green = 255;
-  AddressableLED.Blue = 255;
-
-  pinMode(ADDRESSABLE_LED,OUTPUT);
+  strip.begin();
+  strip.show();
+  for(int i=0;i<5;i++)
+ {
+  strip.setPixelColor(i, strip.Color(255,255,255)); //  bright white color.
+  strip.show(); // This sends the updated pixel color to the hardware.
+  delay(10); // Delay for a period of time (in milliseconds).
+ }
   #ifdef DISABLE_JTAG
     // Disable JTAG on AT90USB chips to free up pins for IO
     MCUCR = 0x80;

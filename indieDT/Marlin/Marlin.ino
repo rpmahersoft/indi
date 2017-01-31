@@ -35,7 +35,7 @@
 /* Use this file to help the Arduino IDE find which Arduino libraries are needed and to keep documentation on GCode */
 
 #include "MarlinConfig.h"
-#include <PololuLedStrip.h>
+#include <Adafruit_NeoPixel.h>
 #include "pins.h"
 #if ENABLED(ULTRA_LCD)
   #if ENABLED(LCD_I2C_TYPE_PCF8575)

@@ -274,18 +274,18 @@ void CardReader::openAndPrintFile(const char *name) {
 void CardReader::startFileprint() {
   if (cardOK) sdprinting = true;
 
-     AddressableLED.Red = 0;
-     AddressableLED.Green = 0;
-     AddressableLED.Blue = 255;
+  //AddressableLED.Red = 0;
+ // AddressableLED.Green =150;
+  //AddressableLED.Blue = 255;
 
 }
 
 void CardReader::stopSDPrint() {
-  AddressableLED.Red = 255;
-  AddressableLED.Green = 0;
-  AddressableLED.Blue = 0;
   sdprinting = false;
   if (isFileOpen()) file.close();
+ // AddressableLED.Red = 255;
+ // AddressableLED.Green = 0;
+ // AddressableLED.Blue = 0;
 }
 
 void CardReader::openLogFile(char* name) {
@@ -603,9 +603,9 @@ void CardReader::printingHasFinished() {
   stepper.synchronize();
   file.close();
 
-      AddressableLED.Red = 0;
-      AddressableLED.Green = 255;
-      AddressableLED.Blue = 0;
+    //  AddressableLED.Red = 0;
+  //    AddressableLED.Green = 255;
+  //    AddressableLED.Blue = 0;
 
   if (file_subcall_ctr > 0) { // Heading up to a parent file that called current as a procedure.
     file_subcall_ctr--;
