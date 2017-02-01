@@ -576,7 +576,8 @@ static void lcd_implementation_status_screen() {
       lcd_print(ystring);
 
       u8g.setPrintPos(2 * XYZ_SPACING + X_LABEL_POS, XYZ_BASELINE);
-      _draw_axis_label(Z_AXIS, PSTR(MSG_Z), blink);
+      //_draw_axis_label(Z_AXIS, PSTR(MSG_Z), blink);
+      _draw_axis_label(Z_AXIS, PSTR(MSG_Z), 0);
       u8g.setPrintPos(2 * XYZ_SPACING + X_VALUE_POS, XYZ_BASELINE);
       lcd_print(zstring);
 

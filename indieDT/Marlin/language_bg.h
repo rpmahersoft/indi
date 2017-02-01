@@ -169,7 +169,7 @@
 #define MSG_SHORT_HOUR                      "h" // One character only
 #define MSG_SHORT_MINUTE                    "m" // One character only
 #define MSG_HEATING                         "Heating..."
-#define MSG_HEATING_COMPLETE                "Printing....."
+#define MSG_HEATING_COMPLETE                "Heating done."
 #define MSG_BED_HEATING                     "Bed Heating."
 #define MSG_BED_DONE                        "Bed done."
 #define MSG_DELTA_CALIBRATE                 "Делта Калибровка"

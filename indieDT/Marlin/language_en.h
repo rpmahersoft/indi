@@ -29,9 +29,9 @@
  */
 #ifndef LANGUAGE_EN_H
 #define LANGUAGE_EN_H
-#endif
+
 #ifndef WELCOME_MSG
-  #define WELCOME_MSG                         MACHINE_NAME " Ready."
+  #define WELCOME_MSG                         MACHINE_NAME " ready."
 #endif
 #ifndef MSG_SD_INSERTED
   #define MSG_SD_INSERTED                     "Card inserted"
@@ -442,7 +442,7 @@
   #define MSG_HEATING_COMPLETE                "Heating done."
 #endif
 #ifndef MSG_START_PRINTING
-#define MSG_START_PRINTING "Printing..."
+#define MSG_START_PRINTING                    "Printing..."
 #endif
 #ifndef MSG_BED_HEATING
   #define MSG_BED_HEATING                     "Bed Heating."
@@ -615,4 +615,4 @@
   #endif
 #endif // LCD_HEIGHT < 4
 
-//#endif // LANGUAGE_EN_H
+#endif // LANGUAGE_EN_H

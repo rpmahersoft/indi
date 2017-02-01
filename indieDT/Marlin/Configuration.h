@@ -135,7 +135,7 @@
 
 // Optional custom name for your RepStrap or other custom machine
 // Displayed in the LCD "Ready" message
-#define CUSTOM_MACHINE_NAME "INDIE"
+#define CUSTOM_MACHINE_NAME "indie-DT"
 
 // Define this to set a unique identifier for this printer, (Used by some programs to differentiate between machines)
 // You can use an online service to generate a random UUID. (eg http://www.uuidgenerator.net/version4)
@@ -443,13 +443,13 @@
 
 #if DISABLED(ENDSTOPPULLUPS)
   // fine endstop settings: Individual pullups. will be ignored if ENDSTOPPULLUPS is defined
-//  #define ENDSTOPPULLUP_XMAX
-//  #define ENDSTOPPULLUP_YMAX
-//  #define ENDSTOPPULLUP_ZMAX
-//  #define ENDSTOPPULLUP_XMIN
-//  #define ENDSTOPPULLUP_YMIN
-//  #define ENDSTOPPULLUP_ZMIN
- //#define ENDSTOPPULLUP_ZMIN_PROBE
+  //#define ENDSTOPPULLUP_XMAX
+  //#define ENDSTOPPULLUP_YMAX
+  //#define ENDSTOPPULLUP_ZMAX
+  //#define ENDSTOPPULLUP_XMIN
+  //#define ENDSTOPPULLUP_YMIN
+  //#define ENDSTOPPULLUP_ZMIN
+  //#define ENDSTOPPULLUP_ZMIN_PROBE
 #endif
 
 // Mechanical endstop with COM to ground and NC to Signal uses "false" here (most common setup).
@@ -496,7 +496,7 @@
 //Scintillate Labs
 
 //Calculations for Extruder 
-#define EXTRUDER_GEAR_RATIO     3.182 //3.1
+#define EXTRUDER_GEAR_RATIO     2.9 //3.182 //3.1
 #define STEPS_PER_REVOLUTION_E  3200  //6400
 #define HOB_EFFECT_DIAMETER     11.59 //10.56
 #define AXIS_STEPS_PER_UNIT_E   (STEPS_PER_REVOLUTION_E * EXTRUDER_GEAR_RATIO / (HOB_EFFECT_DIAMETER * PI))
@@ -556,9 +556,9 @@
  *   M204 R    Retract Acceleration
  *   M204 T    Travel Acceleration
  */
-#define DEFAULT_ACCELERATION          3000    // X, Y, Z and E acceleration for printing moves
-#define DEFAULT_RETRACT_ACCELERATION  3000    // E acceleration for retracts
-#define DEFAULT_TRAVEL_ACCELERATION   3000    // X, Y, Z acceleration for travel (non printing) moves
+#define DEFAULT_ACCELERATION          1500    // X, Y, Z and E acceleration for printing moves
+#define DEFAULT_RETRACT_ACCELERATION  2500    // E acceleration for retracts
+#define DEFAULT_TRAVEL_ACCELERATION   1500    // X, Y, Z acceleration for travel (non printing) moves
 
 /**
  * Default Jerk (mm/s)
@@ -567,10 +567,10 @@
  * When changing speed and direction, if the difference is less than the
  * value set here, it may happen instantaneously.
  */
-#define DEFAULT_XJERK                 20.0
-#define DEFAULT_YJERK                 20.0
+#define DEFAULT_XJERK                 2.0
+#define DEFAULT_YJERK                 2.0
 #define DEFAULT_ZJERK                  0.4
-#define DEFAULT_EJERK                  5.0
+#define DEFAULT_EJERK                  2.0
 
 
 //===========================================================================

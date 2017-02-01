@@ -135,7 +135,7 @@
   #include "pins_MEGATRONICS_3.h"
 #elif MB(MEGATRONICS_31)
   #define MEGATRONICS_31
-  #include "pins_MEGATRONICS_3.h"
+  #include "pins_MEGATRONICS_3.h" 
 #elif MB(OMCA_A)
   #include "pins_OMCA_A.h"
 #elif MB(OMCA)
@@ -173,7 +173,6 @@
 #elif MB(SAINSMART_2IN1)
   #include "pins_SAINSMART_2IN1.h"
 #else
-  #define ADDRESSABLE_LED     11
   #error "Unknown MOTHERBOARD value set in Configuration.h"
 #endif
 

@@ -414,7 +414,7 @@ void lcd_print(char c) { charset_mapper(c); }
   static void logo_lines(const char* const extra) {
     int indent = (LCD_WIDTH - 8 - lcd_strlen_P(extra)) / 2;
     lcd.setCursor(indent, 0); lcd.print('\x00'); lcd_printPGM(PSTR( "-------" ));  lcd.print('\x01');
-    lcd.setCursor(indent, 1);                    lcd_printPGM(PSTR("| INDIE |"));  lcd_printPGM(extra);
+    lcd.setCursor(indent, 1);                    lcd_printPGM(PSTR("|indieDT|"));  lcd_printPGM(extra);
     lcd.setCursor(indent, 2); lcd.print('\x02'); lcd_printPGM(PSTR( "-------" ));  lcd.print('\x03');
   }
 
@@ -558,7 +558,8 @@ void lcd_kill_screen() {
 FORCE_INLINE void _draw_axis_label(const AxisEnum axis, const char* const pstr, const bool blink) {
   if (blink)
     lcd_printPGM(pstr);
-  else {
+  else 
+  {
     if (!axis_homed[axis])
       lcd.print('?');
     else {
@@ -708,7 +709,8 @@ static void lcd_implementation_status_screen() {
     #endif // LCD_WIDTH >= 20
 
     lcd.setCursor(LCD_WIDTH - 8, 1);
-    _draw_axis_label(Z_AXIS, PSTR(MSG_Z), blink);
+    //_draw_axis_label(Z_AXIS, PSTR(MSG_Z), blink);
+    _draw_axis_label(Z_AXIS, PSTR(MSG_Z), 0);
     lcd.print(ftostr52sp(current_position[Z_AXIS] + 0.00001));
 
   #endif // LCD_HEIGHT > 2
@@ -795,7 +797,7 @@ static void lcd_implementation_status_screen() {
 
   /************************************************/
   //Added the code to control the chamber fan
-  if(thermalManager.degHotend(1)> thermalManager.degTargetHotend(1) ||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
+  if((thermalManager.degHotend(1)> thermalManager.degTargetHotend(1) && thermalManager.degTargetHotend(1)!= 0) ||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
   {
     digitalWrite(CHAMBER_FAN, HIGH);      //Activate chamber fan
   }
