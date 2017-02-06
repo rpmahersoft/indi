@@ -496,7 +496,7 @@
 //Scintillate Labs
 
 //Calculations for Extruder 
-#define EXTRUDER_GEAR_RATIO     2.9 //3.182 //3.1
+#define EXTRUDER_GEAR_RATIO     3.182 //2
 #define STEPS_PER_REVOLUTION_E  3200  //6400
 #define HOB_EFFECT_DIAMETER     11.59 //10.56
 #define AXIS_STEPS_PER_UNIT_E   (STEPS_PER_REVOLUTION_E * EXTRUDER_GEAR_RATIO / (HOB_EFFECT_DIAMETER * PI))
