@@ -406,4 +406,13 @@ void do_blocking_move_to_x(const float &x, const float &fr_mm_s=0.0);
 void do_blocking_move_to_z(const float &z, const float &fr_mm_s=0.0);
 void do_blocking_move_to_xy(const float &x, const float &y, const float &fr_mm_s=0.0);
 
+  typedef struct
+  {
+    unsigned char Red;
+    unsigned char Green;
+    unsigned char Blue;
+  }AddressableLED_t;
+
+extern AddressableLED_t AddressableLED;
+
 #endif //MARLIN_H

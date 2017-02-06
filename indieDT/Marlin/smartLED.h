@@ -4,7 +4,6 @@
 #include "pins.h"
 #include <PololuLedStrip.h>
 #define ADDRESSABLE_LED     11
-AddressableLED_t AddressableLED;
 //bool PololuLedStripBase::interruptFriendly = false;
 PololuLedStrip<ADDRESSABLE_LED> ledStrip;
 

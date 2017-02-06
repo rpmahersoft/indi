@@ -113,12 +113,12 @@
   #define Z_STEP_PIN          33
   #define Z_ENABLE_PIN        36
   #define Z_SLEEP             34
-  #define Z_RESET             35  
+  #define Z_RESET             35
   #define Z_MIN_PIN           13
-  #define Z_MAX_PIN           -1  
+  #define Z_MAX_PIN           -1
   #define Z_CS_PIN            -1
 
-  #define E0_DIR_PIN          39  
+  #define E0_DIR_PIN          39
   #define E0_STEP_PIN         14
   #define E0_ENABLE_PIN       31
   #define E0_SLEEP            15
@@ -140,7 +140,7 @@
   #define CHAMBER_FAN         24
   #define EXT0_FAN            25
   #define EXTRA_FAN1          23
-  #define EXTRA_FAN2          22         
+  #define EXTRA_FAN2          22
 
 
 // SPI for Max6675 or Max31855 Thermocouple
@@ -173,7 +173,7 @@
 #ifndef MOSFET_D_PIN
   #define MOSFET_D_PIN  -1
 #endif
-#ifndef RAMPS_D8_PIN  
+#ifndef RAMPS_D8_PIN
   #define RAMPS_D8_PIN   8
 #endif
 #ifndef RAMPS_D9_PIN
@@ -188,22 +188,22 @@
 #if ENABLED(IS_RAMPS_EFB)                      // Hotend, Fan, Bed
   #define FAN_PIN        RAMPS_D9_PIN
   #define HEATER_BED_PIN RAMPS_D8_PIN
-  
+
 #elif ENABLED(IS_RAMPS_EEF)                    // Hotend, Hotend, Fan
   #define HEATER_1_PIN   RAMPS_D9_PIN
   #define FAN_PIN        RAMPS_D8_PIN
-  
+
 #elif ENABLED(IS_RAMPS_EEB)                    // Hotend, Hotend, Bed
   #define HEATER_1_PIN    38 //RAMPS_D9_PIN. Extruder hotend#1
   #define HEATER_BED_PIN  12 //RAMPS_D8_PIN. Extruder heated BED#1
-  
+
 #elif ENABLED(IS_RAMPS_EFF)                    // Hotend, Fan, Fan
   #define FAN_PIN        RAMPS_D9_PIN
   #define FAN1_PIN       RAMPS_D8_PIN
-  
+
 #elif ENABLED(IS_RAMPS_SF)                     // Spindle, Fan
   #define FAN_PIN        RAMPS_D8_PIN
-  
+
 #else                                          // Non-specific are "EFB" (i.e., "EFBF" or "EFBE")
   #define FAN_PIN        RAMPS_D9_PIN
   #define HEATER_BED_PIN RAMPS_D8_PIN
@@ -223,7 +223,7 @@
 //
 #define SDSS               53
 #define LED_PIN            13
-
+#define ADDRESSABLE_LED     11
 // Use the RAMPS 1.4 Analog input 5 on the AUX2 connector
 #define FILWIDTH_PIN        -1   // Analog Input
 
@@ -257,7 +257,7 @@
     #define LCD_PINS_D7     59
     #define LCD_BACKLIGHT_PIN      60
 
-        
+
     #if DISABLED(NEWPANEL)
       #define BEEPER_PIN 33
       // Buttons are attached to a shift register
@@ -274,11 +274,11 @@
     #if ENABLED(REPRAP_DISCOUNT_SMART_CONTROLLER)
       //#define BEEPER          61
       #define BEEPER_PIN      61
-      
+
       #define BTN_EN1 66  //CW
       #define BTN_EN2 68  //CCW
       #define BTN_ENC 67  //Push button
-      
+
       #define SD_DETECT_PIN 10
       #define KILL_PIN 41
 
@@ -383,10 +383,10 @@
 
         //#define BEEPER          61
         #define BEEPER_PIN      61
-        
+
         #define BTN_EN1 66  //CW
         #define BTN_EN2 68  //CCW
-        #define BTN_ENC 67  //Push button        
+        #define BTN_ENC 67  //Push button
       #endif
 
       #if ENABLED(G3D_PANEL)

@@ -232,7 +232,9 @@
 #include "nozzle.h"
 #include "duration_t.h"
 #include "types.h"
-
+#include "smartLED.h"
+AddressableLED_t AddressableLED;
+#define ADDRESSABLE_LED     11
 #if HAS_ABL
   #include "vector_3.h"
   #if ENABLED(AUTO_BED_LEVELING_LINEAR)
@@ -3430,13 +3432,13 @@ inline void gcode_G28() {
    */
   #if ENABLED(MESH_BED_LEVELING)
     float pre_home_z = MESH_HOME_SEARCH_Z;
-    if (mbl.active()) 
+    if (mbl.active())
     {
       #if ENABLED(DEBUG_LEVELING_FEATURE)
         if (DEBUGGING(LEVELING)) SERIAL_ECHOLNPGM("MBL was active");
       #endif
       // Use known Z position if already homed
-      if (axis_homed[X_AXIS] && axis_homed[Y_AXIS] && axis_homed[Z_AXIS]) 
+      if (axis_homed[X_AXIS] && axis_homed[Y_AXIS] && axis_homed[Z_AXIS])
       {
         set_bed_leveling_enabled(false);
         pre_home_z = current_position[Z_AXIS];
@@ -3471,7 +3473,7 @@ inline void gcode_G28() {
 
     #if Z_HOME_DIR > 0  // If homing away from BED do Z first
 
-      if (home_all_axis || homeZ) 
+      if (home_all_axis || homeZ)
       {
         HOMEAXIS(Z);
         #if ENABLED(DEBUG_LEVELING_FEATURE)
@@ -3481,7 +3483,7 @@ inline void gcode_G28() {
 
     #else
 
-      if (home_all_axis || homeX || homeY) 
+      if (home_all_axis || homeX || homeY)
       {
         // Raise Z before homing any other axes and z is not already high enough (never lower z)
         destination[Z_AXIS] = LOGICAL_Z_POSITION(Z_HOMING_HEIGHT);
@@ -5250,7 +5252,7 @@ inline void gcode_M104() {
 
     if (code_value_temp_abs() > thermalManager.degHotend(target_extruder)) LCD_MESSAGEPGM(MSG_HEATING);
   }
-  
+
   #if ENABLED(AUTOTEMP)
     planner.autotemp_M104_M109();
   #endif
@@ -5529,10 +5531,12 @@ inline void gcode_M109() {
     }
 
   } while (wait_for_heatup && TEMP_CONDITIONS);
-
+   
   //if (wait_for_heatup) LCD_MESSAGEPGM(MSG_HEATING_COMPLETE);
   if (wait_for_heatup) LCD_MESSAGEPGM(MSG_START_PRINTING);
-
+       AddressableLED.Red = 0xFF;
+       AddressableLED.Green = 0xFF;
+       AddressableLED.Blue = 0xFF;
   KEEPALIVE_STATE(IN_HANDLER);
 }
 
@@ -10188,8 +10192,45 @@ void stop() {
  *    • Z probe sled
  *    • status LEDs
  */
-void setup() {
 
+ void addressable_led_update()
+ {
+   for(uint16_t i = 0; i < LED_COUNT; i++)
+   {
+     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+   }
+   // Write the colors to the LED strip.
+   ledStrip.write(colors, LED_COUNT);
+
+  MYSERIAL.println(thermalManager.degTargetHotend(0) + 0.5);
+  
+   if(int(thermalManager.degTargetHotend(0) + 0.5) != 0)
+   {
+     if(int(thermalManager.degHotend(0) + 0.5) < int(thermalManager.degTargetHotend(0) + 0.5))
+     {
+       //Dark orange
+       AddressableLED.Red = 0xFF;
+       AddressableLED.Green = 0x45;
+       AddressableLED.Blue = 0x00;
+     }
+     else
+     {
+       //Yellow
+       AddressableLED.Red = 0xFF;
+       AddressableLED.Green = 0xFF;
+       AddressableLED.Blue = 0x00;
+     }
+   }
+   
+ }
+
+void setup()
+{
+  AddressableLED.Red = 0xFF;
+  AddressableLED.Green = 0xFF;
+  AddressableLED.Blue = 0xFF;
+
+  pinMode(ADDRESSABLE_LED,OUTPUT);
   #ifdef DISABLE_JTAG
     // Disable JTAG on AT90USB chips to free up pins for IO
     MCUCR = 0x80;
@@ -10310,7 +10351,7 @@ void setup() {
 
   lcd_init();
   digitalWrite(LCD_BACKLIGHT_PIN, HIGH);
-  
+
   #if ENABLED(SHOW_BOOTSCREEN)
     #if ENABLED(DOGLCD)
       safe_delay(BOOTSCREEN_TIMEOUT);
@@ -10342,16 +10383,16 @@ void setup() {
 
   SET_OUTPUT(CHAMBER_FAN);
   digitalWrite(CHAMBER_FAN, LOW); //If low then on MOSFET heatsink Pad volt = 12V else if active then pad volt = 2-3Volts
-  
+
   SET_OUTPUT(EXT0_FAN);
   digitalWrite(EXT0_FAN, LOW);   //If low then on MOSFET heatsink Pad volt = 12V else if active then pad volt = 2-3Volts
-  
+
   SET_OUTPUT(EXTRA_FAN1);
   WRITE(EXTRA_FAN1,LOW);
-  
+
   SET_OUTPUT(EXTRA_FAN2);
-  WRITE(EXTRA_FAN2,HIGH);  
-  
+  WRITE(EXTRA_FAN2,HIGH);
+
 }
 
 /**
@@ -10409,4 +10450,5 @@ void loop() {
   }
   endstops.report_state();
   idle();
+ addressable_led_update();
 }
