@@ -483,7 +483,7 @@ void lcd_print(char c) { charset_mapper(c); }
       //
       // Show the Marlin logo with splash line 1
       //
-      if (LCD_EXTRA_SPACE >= strlen(STRING_SPLASH_LINE1) + 1) 
+      if (LCD_EXTRA_SPACE >= strlen(STRING_SPLASH_LINE1) + 1)
       {
         //
         // Show the Marlin logo, splash line1, and splash line 2
@@ -495,7 +495,7 @@ void lcd_print(char c) { charset_mapper(c); }
           safe_delay(2000);
         #endif
       }
-      else 
+      else
       {
         //
         // Show the Marlin logo with splash line 1
@@ -558,10 +558,10 @@ void lcd_kill_screen() {
 FORCE_INLINE void _draw_axis_label(const AxisEnum axis, const char* const pstr, const bool blink) {
   if (blink)
     lcd_printPGM(pstr);
-  else 
+  else
   {
     if (!axis_homed[axis])
-      lcd.print('?');
+     lcd.print('?');
     else {
       #if DISABLED(DISABLE_REDUCED_ACCURACY_WARNING)
         if (!axis_known_position[axis])
@@ -708,9 +708,9 @@ static void lcd_implementation_status_screen() {
 
     #endif // LCD_WIDTH >= 20
 
-    lcd.setCursor(LCD_WIDTH - 8, 1);
+    lcd.setCursor(LCD_WIDTH - 10, 1);
     //_draw_axis_label(Z_AXIS, PSTR(MSG_Z), blink);
-    _draw_axis_label(Z_AXIS, PSTR(MSG_Z), 0);
+    _draw_axis_label(Z_AXIS, PSTR(MSG_Z),'Z');
     lcd.print(ftostr52sp(current_position[Z_AXIS] + 0.00001));
 
   #endif // LCD_HEIGHT > 2
@@ -806,7 +806,7 @@ static void lcd_implementation_status_screen() {
     digitalWrite(CHAMBER_FAN, LOW);    //De-activate chamber fan
   }
   /************************************************/
-  
+
 }
 
 #if ENABLED(ULTIPANEL)

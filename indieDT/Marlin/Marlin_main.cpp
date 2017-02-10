@@ -5531,12 +5531,21 @@ inline void gcode_M109() {
     }
 
   } while (wait_for_heatup && TEMP_CONDITIONS);
-   
+
   //if (wait_for_heatup) LCD_MESSAGEPGM(MSG_HEATING_COMPLETE);
-  if (wait_for_heatup) LCD_MESSAGEPGM(MSG_START_PRINTING);
-       AddressableLED.Red = 0xFF;
-       AddressableLED.Green = 0xFF;
+  if (wait_for_heatup)
+    {
+      LCD_MESSAGEPGM(MSG_START_PRINTING);
+      for(uint16_t i = 0; i <= LED_COUNT ; i++)
+   {
+     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+   // Write the colors to the LED strip.
+     ledStrip.write(colors, LED_COUNT);
+       AddressableLED.Red = 0x1e;
+       AddressableLED.Green = 0x90;
        AddressableLED.Blue = 0xFF;
+     }
+    }
   KEEPALIVE_STATE(IN_HANDLER);
 }
 
@@ -10193,43 +10202,9 @@ void stop() {
  *    • status LEDs
  */
 
- void addressable_led_update()
- {
-   for(uint16_t i = 0; i < LED_COUNT; i++)
-   {
-     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-   }
-   // Write the colors to the LED strip.
-   ledStrip.write(colors, LED_COUNT);
-
-  MYSERIAL.println(thermalManager.degTargetHotend(0) + 0.5);
-  
-   if(int(thermalManager.degTargetHotend(0) + 0.5) != 0)
-   {
-     if(int(thermalManager.degHotend(0) + 0.5) < int(thermalManager.degTargetHotend(0) + 0.5))
-     {
-       //Dark orange
-       AddressableLED.Red = 0xFF;
-       AddressableLED.Green = 0x45;
-       AddressableLED.Blue = 0x00;
-     }
-     else
-     {
-       //Yellow
-       AddressableLED.Red = 0xFF;
-       AddressableLED.Green = 0xFF;
-       AddressableLED.Blue = 0x00;
-     }
-   }
-   
- }
 
 void setup()
 {
-  AddressableLED.Red = 0xFF;
-  AddressableLED.Green = 0xFF;
-  AddressableLED.Blue = 0xFF;
-
   pinMode(ADDRESSABLE_LED,OUTPUT);
   #ifdef DISABLE_JTAG
     // Disable JTAG on AT90USB chips to free up pins for IO
@@ -10392,6 +10367,16 @@ void setup()
 
   SET_OUTPUT(EXTRA_FAN2);
   WRITE(EXTRA_FAN2,HIGH);
+       
+        for(uint16_t i = 0; i <= LED_COUNT ; i++)
+   {
+     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+   // Write the colors to the LED strip.
+     ledStrip.write(colors, LED_COUNT);
+       AddressableLED.Red = 0xFF;
+       AddressableLED.Green = 0xFF;
+       AddressableLED.Blue = 0xFF;
+     }
 
 }
 
@@ -10450,5 +10435,4 @@ void loop() {
   }
   endstops.report_state();
   idle();
- addressable_led_update();
 }

@@ -1,4 +1,4 @@
-/**
+/**Marlin changes BY ravi/Mahesh 7/2/17
  * Marlin 3D Printer Firmware
  * Copyright (C) 2016 MarlinFirmware [https://github.com/MarlinFirmware/Marlin]
  *
@@ -331,10 +331,10 @@
 // @section homing
 
 //homing hits the endstop, then retracts by this distance, before it tries to slowly bump again:
-#define X_HOME_BUMP_MM 20
-#define Y_HOME_BUMP_MM 20
-#define Z_HOME_BUMP_MM 2
-#define HOMING_BUMP_DIVISOR {2, 2, 4}  // Re-Bump Speed Divisor (Divides the Homing Feedrate)
+#define X_HOME_BUMP_MM 8  //20 (distance after homing from the ref)
+#define Y_HOME_BUMP_MM 8   //20  (distance after homing from the ref)
+#define Z_HOME_BUMP_MM 4   //2
+#define HOMING_BUMP_DIVISOR {4, 4, 4}  // Re-Bump Speed Divisor (Divides the Homing Feedrate) previous 4,4,8
 //#define QUICK_HOME  //if this is defined, if both x and y are to be homed, a diagonal move will be performed initially.
 
 // When G28 is called, this option will make Y home before X
