@@ -5470,7 +5470,6 @@ inline void gcode_M109() {
   millis_t now, next_temp_ms = 0, next_cool_check_ms = 0;
 
   KEEPALIVE_STATE(NOT_BUSY);
-
   do {
     // Target temperature might be changed during the loop
     if (theTarget != thermalManager.degTargetHotend(target_extruder)) {
@@ -5529,7 +5528,19 @@ inline void gcode_M109() {
         old_temp = temp;
       }
     }
+   
+   //while heating color is Red
+   for(uint16_t i = 0; i <= LED_COUNT ; i++)
+   {
+     MYSERIAL.println(21);
+       colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+      // Write the colors to the LED strip.
+       AddressableLED.Red = 0xFF;
+       AddressableLED.Green = 0;
+       AddressableLED.Blue = 0;
+       ledStrip.write(colors, LED_COUNT);
 
+   }
   } while (wait_for_heatup && TEMP_CONDITIONS);
 
   //if (wait_for_heatup) LCD_MESSAGEPGM(MSG_HEATING_COMPLETE);
@@ -5537,14 +5548,16 @@ inline void gcode_M109() {
     {
       LCD_MESSAGEPGM(MSG_START_PRINTING);
       for(uint16_t i = 0; i <= LED_COUNT ; i++)
-   {
-     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-   // Write the colors to the LED strip.
-     ledStrip.write(colors, LED_COUNT);
-       AddressableLED.Red = 0x1e;
-       AddressableLED.Green = 0x90;
-       AddressableLED.Blue = 0xFF;
-     }
+      {
+         MYSERIAL.println(99);
+          colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+
+         // Write the colors to the LED strip. 
+         AddressableLED.Red = 0xFF;
+         AddressableLED.Green = 0xFF;
+         AddressableLED.Blue = 0xFF;
+         ledStrip.write(colors, LED_COUNT);
+      }
     }
   KEEPALIVE_STATE(IN_HANDLER);
 }
@@ -5580,7 +5593,19 @@ inline void gcode_M109() {
           * will not restart.
           */
           print_job_timer.start();
-        }
+
+         for(uint16_t i = 0; i <= LED_COUNT ; i++)
+         {
+             colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+             // Write the colors to the LED strip.
+             AddressableLED.Red = 0xFF;
+             AddressableLED.Green = 0;
+             AddressableLED.Blue = 0;
+             ledStrip.write(colors, LED_COUNT);
+         }
+      }
+
+        
       #endif
     }
 
@@ -5894,6 +5919,16 @@ inline void gcode_M18_M84() {
     bool all_axis = !((code_seen('X')) || (code_seen('Y')) || (code_seen('Z')) || (code_seen('E')));
     if (all_axis) {
       stepper.finish_and_disable();
+      for(uint16_t i = 0; i <= LED_COUNT ; i++)
+      {
+         colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
+         // Write the colors to the LED strip.
+         AddressableLED.Red = 0;
+         AddressableLED.Green = 0xFF;
+         AddressableLED.Blue = 0;
+         ledStrip.write(colors, LED_COUNT);
+      }
+      
     }
     else {
       stepper.synchronize();
@@ -10367,16 +10402,17 @@ void setup()
 
   SET_OUTPUT(EXTRA_FAN2);
   WRITE(EXTRA_FAN2,HIGH);
-       
-        for(uint16_t i = 0; i <= LED_COUNT ; i++)
+
+   for(uint16_t i = 0; i <= LED_COUNT ; i++)
    {
      colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-   // Write the colors to the LED strip.
+     // Write the colors to the LED strip.
+     
+     AddressableLED.Red = 0xFF;
+     AddressableLED.Green = 0xFF;
+     AddressableLED.Blue = 0xFF;
      ledStrip.write(colors, LED_COUNT);
-       AddressableLED.Red = 0xFF;
-       AddressableLED.Green = 0xFF;
-       AddressableLED.Blue = 0xFF;
-     }
+   }
 
 }
 

@@ -50,7 +50,7 @@
 #endif
 
 Temperature thermalManager;
-
+FanControl_t FanControl;
 // public:
 
 float Temperature::current_temperature[HOTENDS] = { 0.0 },
@@ -804,6 +804,35 @@ void Temperature::manage_heater() {
       }
     #endif
   #endif //TEMP_SENSOR_BED != 0
+
+   if((thermalManager.degHotend(0) > (thermalManager.degTargetHotend(0)-10)) && thermalManager.degTargetHotend(0)!= 0) //||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
+  {
+    digitalWrite(CHAMBER_FAN, HIGH);      //Activate chamber fan
+  }
+  else
+  {
+    digitalWrite(CHAMBER_FAN, LOW);    //De-activate chamber fan
+  }
+
+
+    int32_t tChamberTemp = int(degHotend(1) + 0.5);
+    int32_t tChamberTarget = 60;
+    if(tChamberTemp >= tChamberTarget && tChamberTarget != 0)
+    {
+      if(!FanControl.Exhaust)
+      {
+        FanControl.Exhaust = 1;
+        digitalWrite(EXTRA_FAN1,HIGH);
+      }
+    }
+    else
+    {
+      if(FanControl.Exhaust)
+      {
+        FanControl.Exhaust = 0;
+        digitalWrite(EXTRA_FAN1,LOW);
+      }
+    }
 }
 
 #define PGM_RD_W(x)   (short)pgm_read_word(&x)

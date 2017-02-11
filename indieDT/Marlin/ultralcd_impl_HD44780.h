@@ -797,7 +797,8 @@ static void lcd_implementation_status_screen() {
 
   /************************************************/
   //Added the code to control the chamber fan
-  if((thermalManager.degHotend(1)> thermalManager.degTargetHotend(1) && thermalManager.degTargetHotend(1)!= 0) ||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
+  MYSERIAL.println(thermalManager.degHotend(0) + 0.5);
+  if((thermalManager.degHotend(0) > thermalManager.degTargetHotend(0)) && thermalManager.degTargetHotend(0)!= 0) //||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
   {
     digitalWrite(CHAMBER_FAN, HIGH);      //Activate chamber fan
   }
@@ -806,6 +807,23 @@ static void lcd_implementation_status_screen() {
     digitalWrite(CHAMBER_FAN, LOW);    //De-activate chamber fan
   }
   /************************************************/
+
+//    if(tChamberTemp >= tChamberTarget && tChamberTarget != 0)
+//    {
+//      if(!FanControl.Exhaust)
+//      {
+//        FanControl.Exhaust = 1;
+//        digitalWrite(EXTRA_FAN1,HIGH);
+//      }
+//    }
+//    else
+//    {
+//      if(FanControl.Exhaust)
+//      {
+//        FanControl.Exhaust = 0;
+//        digitalWrite(EXTRA_FAN1,LOW);
+//      }
+//    }
 
 }
 

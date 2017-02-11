@@ -112,6 +112,18 @@ void idle(
   #endif
 );
 
+//FanControl
+  typedef struct
+  {
+    unsigned Chamber:1;
+    unsigned Exhaust:1;
+    unsigned Electronic:1;
+    unsigned Extruder:1;
+  }FanControl_t;
+
+extern FanControl_t FanControl;
+
+
 void manage_inactivity(bool ignore_stepper_queue = false);
 
 #if ENABLED(DUAL_X_CARRIAGE) || ENABLED(DUAL_NOZZLE_DUPLICATION_MODE)

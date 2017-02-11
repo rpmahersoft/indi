@@ -869,7 +869,7 @@ void kill_screen(const char* lcd_msg) {
     #if ENABLED(BABYSTEPPING)
       #if ENABLED(BABYSTEP_XY)
         MENU_ITEM(submenu, MSG_BABYSTEP_X, lcd_babystep_x);
-        MENU_ITEM(submenu, MSG_BABYSTEP_Y, lcd_babystep_y);
+       MENU_ITEM(submenu, MSG_BABYSTEP_Y, lcd_babystep_y);
       #endif //BABYSTEP_XY
       MENU_ITEM(submenu, MSG_BABYSTEP_Z, lcd_babystep_z);
     #endif
@@ -1439,7 +1439,41 @@ void kill_screen(const char* lcd_msg) {
     }
     if (lcdDrawUpdate) lcd_implementation_drawedit(name, ftostr41sign(current_position[axis]));
   }
-  void lcd_move_x() { _lcd_move_xyz(PSTR(MSG_MOVE_X), X_AXIS); }
+  void lcd_move_x()
+   {
+
+//  _lcd_move_xyz(PSTR(MSG_MOVE_X), X_AXIS);
+  if (encoderPosition != 0)
+  {
+    current_position[X_AXIS] += float((int)encoderPosition) * move_menu_scale;
+    if (min_software_endstops && current_position[X_AXIS] < X_MIN_POS)
+        current_position[X_AXIS] = X_MIN_POS;
+    if (max_software_endstops && current_position[X_AXIS] > X_MAX_POS)
+        current_position[X_AXIS] = X_MAX_POS;
+    encoderPosition = 0;
+  /*  #ifdef DELTA
+   // calculate_delta(current_position);
+   // plan_buffer_line(delta[X_AXIS], delta[Y_AXIS], delta[Z_AXIS], current_position[E_AXIS], manual_feedrate[X_AXIS]/60, active_extruder);
+    #else
+    plan_buffer_line(current_position[X_AXIS], current_position[Y_AXIS], current_position[Z_AXIS], current_position[E_AXIS], manual_feedrate[X_AXIS]/60, active_extruder);
+    #endif
+    */lcdDrawUpdate = 1;
+  }
+  if (lcdDrawUpdate)
+  {
+//lcd_implementation_drawedit(PSTR("X"), ftostr31(current_position[X_AXIS]));
+  lcd_implementation_drawedit(PSTR("X"), ftostr41sign(current_position[X_AXIS]));
+
+  }
+  if (LCD_CLICKED)
+  {
+    lcd_quick_feedback();
+    //currentMenu = lcd_move_menu_axis;
+ //   currentScreen = _lcd_move_menu_axis;
+    encoderPosition = 0;
+  }
+
+}
   void lcd_move_y() { _lcd_move_xyz(PSTR(MSG_MOVE_Y), Y_AXIS); }
   void lcd_move_z() { _lcd_move_xyz(PSTR(MSG_MOVE_Z), Z_AXIS); }
   void _lcd_move_e(
@@ -1508,8 +1542,8 @@ void kill_screen(const char* lcd_msg) {
     MENU_BACK(MSG_MOVE_AXIS);
 
     if (_MOVE_XYZ_ALLOWED) {
-      MENU_ITEM(submenu, MSG_MOVE_X, lcd_move_x);
-      MENU_ITEM(submenu, MSG_MOVE_Y, lcd_move_y);
+    //  MENU_ITEM(submenu, MSG_MOVE_X, lcd_move_x);
+    //  MENU_ITEM(submenu, MSG_MOVE_Y, lcd_move_y);
     }
 
     if (move_menu_scale < 10.0) {
@@ -1561,7 +1595,7 @@ void kill_screen(const char* lcd_msg) {
     MENU_BACK(MSG_PREPARE);
 
     if (_MOVE_XYZ_ALLOWED)
-      MENU_ITEM(submenu, MSG_MOVE_10MM, lcd_move_menu_10mm);
+  //  MENU_ITEM(submenu, MSG_MOVE_10MM, lcd_move_menu_10mm);
 
     MENU_ITEM(submenu, MSG_MOVE_1MM, lcd_move_menu_1mm);
     MENU_ITEM(submenu, MSG_MOVE_01MM, lcd_move_menu_01mm);
@@ -1701,8 +1735,8 @@ void kill_screen(const char* lcd_msg) {
       #endif
     #else //HOTENDS > 1
       #if TEMP_SENSOR_0 != 0
-        //MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(int3, MSG_NOZZLE MSG_N1, &thermalManager.target_temperature[0], 0, HEATER_0_MAXTEMP - 15, watch_temp_callback_E0);       
-        MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(int3, MSG_NOZZLE, &thermalManager.target_temperature[0], 0, HEATER_0_MAXTEMP - 15, watch_temp_callback_E0);       
+        //MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(int3, MSG_NOZZLE MSG_N1, &thermalManager.target_temperature[0], 0, HEATER_0_MAXTEMP - 15, watch_temp_callback_E0);
+        MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(int3, MSG_NOZZLE, &thermalManager.target_temperature[0], 0, HEATER_0_MAXTEMP - 15, watch_temp_callback_E0);
       #endif
       #if TEMP_SENSOR_1 != 0
         //MENU_MULTIPLIER_ITEM_EDIT_CALLBACK(int3, MSG_NOZZLE MSG_N2, &thermalManager.target_temperature[1], 0, HEATER_1_MAXTEMP - 15, watch_temp_callback_E1);
