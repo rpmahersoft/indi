@@ -5533,11 +5533,11 @@ inline void gcode_M109() {
    for(uint16_t i = 0; i <= LED_COUNT ; i++)
    {
      MYSERIAL.println(21);
+     // Write the red color to the LED strip.
+      AddressableLED.Red = 0xFF;
+      AddressableLED.Green = 0;
+      AddressableLED.Blue = 0;
        colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-      // Write the colors to the LED strip.
-       AddressableLED.Red = 0xFF;
-       AddressableLED.Green = 0;
-       AddressableLED.Blue = 0;
        ledStrip.write(colors, LED_COUNT);
 
    }
@@ -5550,12 +5550,11 @@ inline void gcode_M109() {
       for(uint16_t i = 0; i <= LED_COUNT ; i++)
       {
          MYSERIAL.println(99);
+        // Write the white color to the LED strip.
+          AddressableLED.Red = 0xFF;
+          AddressableLED.Green = 0xFF;
+          AddressableLED.Blue = 0xFF;
           colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-
-         // Write the colors to the LED strip.
-         AddressableLED.Red = 0xFF;
-         AddressableLED.Green = 0xFF;
-         AddressableLED.Blue = 0xFF;
          ledStrip.write(colors, LED_COUNT);
       }
     }
@@ -5596,11 +5595,11 @@ inline void gcode_M109() {
 
          for(uint16_t i = 0; i <= LED_COUNT ; i++)
          {
+           // Write the red colors to the LED strip.
+           AddressableLED.Red = 0xFF;
+           AddressableLED.Green = 0;
+           AddressableLED.Blue = 0;
              colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-             // Write the colors to the LED strip.
-             AddressableLED.Red = 0xFF;
-             AddressableLED.Green = 0;
-             AddressableLED.Blue = 0;
              ledStrip.write(colors, LED_COUNT);
          }
       }
@@ -5921,11 +5920,11 @@ inline void gcode_M18_M84() {
       stepper.finish_and_disable();
       for(uint16_t i = 0; i <= LED_COUNT ; i++)
       {
+        // Write the green colors to the LED strip.
+        AddressableLED.Red = 0;
+        AddressableLED.Green = 0xFF;
+        AddressableLED.Blue = 0;
          colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-         // Write the colors to the LED strip.
-         AddressableLED.Red = 0;
-         AddressableLED.Green = 0xFF;
-         AddressableLED.Blue = 0;
          ledStrip.write(colors, LED_COUNT);
       }
 
@@ -10405,13 +10404,13 @@ void setup()
 
    for(uint16_t i = 0; i <= LED_COUNT ; i++)
    {
-     colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
-     // Write the colors to the LED strip.
-
+     // Write the white color to the LED strip.
      AddressableLED.Red = 0xFF;
      AddressableLED.Green = 0xFF;
      AddressableLED.Blue = 0xFF;
+      colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
      ledStrip.write(colors, LED_COUNT);
+
    }
 
 }
