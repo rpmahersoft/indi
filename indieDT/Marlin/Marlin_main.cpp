@@ -3145,7 +3145,7 @@ inline void gcode_G4() {
     Nozzle::park(z_action);
   }
 #endif // NOZZLE_PARK_FEATURE
-
+/*
 #if ENABLED(QUICK_HOME)
 
   static void quick_home_xy() {
@@ -3174,7 +3174,7 @@ inline void gcode_G4() {
   }
 
 #endif // QUICK_HOME
-
+*/
 #if ENABLED(DEBUG_LEVELING_FEATURE)
 
   void log_machine_info() {
@@ -3500,12 +3500,12 @@ inline void gcode_G28() {
 
     #endif
 
-    #if ENABLED(QUICK_HOME)
+/*    #if ENABLED(QUICK_HOME)
 
       if (home_all_axis || (homeX && homeY)) quick_home_xy();
 
     #endif
-
+*/
     #if ENABLED(HOME_Y_BEFORE_X)
 
       // Home Y
@@ -5528,7 +5528,7 @@ inline void gcode_M109() {
         old_temp = temp;
       }
     }
-   
+
    //while heating color is Red
    for(uint16_t i = 0; i <= LED_COUNT ; i++)
    {
@@ -5552,7 +5552,7 @@ inline void gcode_M109() {
          MYSERIAL.println(99);
           colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
 
-         // Write the colors to the LED strip. 
+         // Write the colors to the LED strip.
          AddressableLED.Red = 0xFF;
          AddressableLED.Green = 0xFF;
          AddressableLED.Blue = 0xFF;
@@ -5605,7 +5605,7 @@ inline void gcode_M109() {
          }
       }
 
-        
+
       #endif
     }
 
@@ -5928,7 +5928,7 @@ inline void gcode_M18_M84() {
          AddressableLED.Blue = 0;
          ledStrip.write(colors, LED_COUNT);
       }
-      
+
     }
     else {
       stepper.synchronize();
@@ -10407,7 +10407,7 @@ void setup()
    {
      colors[i] = (rgb_color){ AddressableLED.Red,AddressableLED.Green, AddressableLED.Blue};
      // Write the colors to the LED strip.
-     
+
      AddressableLED.Red = 0xFF;
      AddressableLED.Green = 0xFF;
      AddressableLED.Blue = 0xFF;
