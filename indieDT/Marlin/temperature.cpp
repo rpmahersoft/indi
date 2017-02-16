@@ -527,8 +527,8 @@ void Temperature::min_temp_error(int8_t e) {
 }
 
 
-float Temperature::get_pid_output(int e) 
-{   
+float Temperature::get_pid_output(int e)
+{
   #if HOTENDS == 1
     UNUSED(e);
     #define _HOTEND_TEST     true
@@ -607,7 +607,7 @@ float Temperature::get_pid_output(int e)
       }
     #endif //PID_DEBUG
 
-    
+
 
   #else /* PID off */
     pid_output = (current_temperature[HOTEND_INDEX] < target_temperature[HOTEND_INDEX]) ? PID_MAX : 0;
@@ -617,7 +617,7 @@ float Temperature::get_pid_output(int e)
 }
 
 #if ENABLED(PIDTEMPBED)
-  float Temperature::get_pid_output_bed() 
+  float Temperature::get_pid_output_bed()
   {
     float pid_output;
     #if DISABLED(PID_OPENLOOP)
@@ -701,10 +701,10 @@ void Temperature::manage_heater() {
     #if ENABLED(THERMAL_PROTECTION_HOTENDS) && WATCH_TEMP_PERIOD > 0
 
       // Is it time to check this extruder's heater?
-      if (watch_heater_next_ms[e] && ELAPSED(ms, watch_heater_next_ms[e])) 
+      if (watch_heater_next_ms[e] && ELAPSED(ms, watch_heater_next_ms[e]))
       {
         // Has it failed to increase enough?
-        if (degHotend(e) < watch_target_temp[e]) 
+        if (degHotend(e) < watch_target_temp[e])
         {
           // Stop!
           _temp_error(e, PSTR(MSG_T_HEATING_FAILED), PSTR(MSG_HEATING_FAILED_LCD));
@@ -805,25 +805,27 @@ void Temperature::manage_heater() {
     #endif
   #endif //TEMP_SENSOR_BED != 0
 
-   if((thermalManager.degHotend(0) > (thermalManager.degTargetHotend(0)-10)) && thermalManager.degTargetHotend(0)!= 0) //||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
+   if((FanControl.Chamber==1) || ((thermalManager.degHotend(0) > (thermalManager.degTargetHotend(0)-10)) && thermalManager.degTargetHotend(0)!= 0)) //||  thermalManager.degHotend(1) > 60)  //Activate fan only if user has set a Chamber temperature OR it has crossed 60deg celcius
   {
     digitalWrite(CHAMBER_FAN, HIGH);      //Activate chamber fan
+    FanControl.Chamber = 1;
   }
   else
   {
     digitalWrite(CHAMBER_FAN, LOW);    //De-activate chamber fan
+    FanControl.Chamber = 0;
   }
 
 
     int32_t tChamberTemp = int(degHotend(1) + 0.5);
-    int32_t tChamberTarget = 60;
+    int32_t tChamberTarget = 35;
     if(tChamberTemp >= tChamberTarget && tChamberTarget != 0)
     {
-      if(!FanControl.Exhaust)
-      {
+      //if(!FanControl.Exhaust)
+      //{
         FanControl.Exhaust = 1;
         digitalWrite(EXTRA_FAN1,HIGH);
-      }
+      //}
     }
     else
     {
@@ -1982,6 +1984,6 @@ void Temperature::isr() {
       if (!endstop_monitor_count) endstop_monitor();  // report changes in endstop status
     }
   #endif
-  
+
   SBI(TIMSK0, OCIE0B); //re-enable Temperature ISR
 }
